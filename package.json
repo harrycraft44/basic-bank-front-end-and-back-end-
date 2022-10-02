@@ -1,0 +1,21 @@
+{
+  "name": "boo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "]",
+  "license": "ISC",
+  "dependencies": {
+    "@gykh/caesar-cipher": "^2.0.0",
+    "body-parser": "^1.20.0",
+    "cookie": "^0.5.0",
+    "cookie-parser": "^1.4.6",
+    "cookies": "^0.8.0",
+    "express": "^4.18.1",
+    "jquery": "^3.6.1",
+    "node-sass": "^7.0.3"
+  }
+}
