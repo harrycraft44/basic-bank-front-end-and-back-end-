@@ -248,7 +248,7 @@ app.post('/api/smessage',function (req, res) {
         var ttnumber = tnumber[userns.indexOf(username)]
         gd();
         if(req.body.user== "everyone"){
-            fs.appendFile(`d:\\htsandyoutube/hts/software/node/boo/data/messages/GC/m.txt`, `,${username}:<br>${req.body.message.replace(",","")}`, function (err) {
+            fs.appendFile(`d:\\htsandyoutube/hts/software/node/boo/data/messages/GC/m.txt`, `,${username}:<br>${req.body.message.replaceAll(","," ")}`, function (err) {
                 if (err) throw err;
                 console.log('Saved!');
               });
@@ -268,11 +268,11 @@ app.post('/api/smessage',function (req, res) {
                   fs.writeFileSync(`d:\\htsandyoutube/hts/software/node/boo/data/messages/${req.body.user}/${username}.txt`,"");
             }
             
-            fs.appendFile(`d:\\htsandyoutube/hts/software/node/boo/data/messages/${username}/${req.body.user}.txt`, `,own${req.body.message.replace(",","")}`, function (err) {
+            fs.appendFile(`d:\\htsandyoutube/hts/software/node/boo/data/messages/${username}/${req.body.user}.txt`, `,own${req.body.message.replaceAll(",","")}`, function (err) {
                 if (err) throw err;
                 console.log('Saved!');
               });
-            fs.appendFile(`d:\\htsandyoutube/hts/software/node/boo/data/messages/${req.body.user}/${username}.txt`, `,${req.body.message.replace(",","")}`, function (err) {
+            fs.appendFile(`d:\\htsandyoutube/hts/software/node/boo/data/messages/${req.body.user}/${username}.txt`, `,${req.body.message.replaceAll(",","")}`, function (err) {
                 if (err) throw err;
                 console.log('Saved!');
               });
@@ -519,6 +519,10 @@ app.get('/dashboard/style.css', function (req, res) {
     res.end(fs.readFileSync("./html/dashboard/style.css", 'utf8'))
 
 })
+app.get('/admin/style.css', function (req, res) {
+    res.end(fs.readFileSync("./html/admin/style.css", 'utf8'))
+
+})
 
 app.get('/dashboard/js.js', function (req, res) {
     res.end(fs.readFileSync("./html/dashboard/js.js", 'utf8'))
@@ -694,8 +698,203 @@ app.get('/wel/style.css', function (req, res){
 
 
 })
+app.get('/api/admin/ban/:id', function (req, res){
+  userps[userns.findIndex(req.params.id.toString())] = "gjksdfgjkldfshgjkldfhgjkdfghdfjkslghdfkjsghkljsdfghdfjkghldfjklghdfskljghfdghfgkjshdfglkjdfhgkldfjsghdfjkghdfjkghdfjkghdfjkghfjkghdfjkghdf"
+})
+//admin pannel 
+app.get('/admin',   function (req, res) {
+    if(req.cookies.lo == undefined){
+        res.redirect("/login")
+        return true;
+    }   
+        var ad = ""
+      var usda = decryptString(req.cookies.lo, 4);
+        var username = usda.split(",")[0]
+        var password = usda.split(",")[1]
+        var ball = bal[userns.indexOf(username)]
+        var ttnumber = tnumber[userns.indexOf(username)]
+        gd();
+        if(username == "admin"){
 
+        
+        array = fs.readFileSync(`./data/messages/GC/m.txt`, 'utf8').split(",");
+        
+        ds = array.length;
+        ssa = userns.length;
+        userns.forEach(element => {
+        ad = ad+`<div class="btn-group open">
+        <a class="btn btn-primary" href="#"><i class="fa fa-user fa-fw"></i> ${element}</a>
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit</a></li>
+          <li><a href="#"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i> Delete</a></li>
+          <li><a href="#"><i class="fa fa-ban fa-fw" aria-hidden="true"></i> Ban</a></li>
+          <li class="divider"></li>
+          <li><a href="#"><i class="fa fa-unlock" aria-hidden="true"></i> Make admin</a></li>
+        </ul>
+      </div>`
+        });
+        res.send(`<!DOCTYPE html>
+        <html lang="en" >
+        <head>
+          <meta charset="UTF-8">
+          <title>CodePen - Start Bootstrap Admin Panel</title>
+          <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/3.3.7/css/sb-admin-2.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
+        <link rel='stylesheet' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/416491/timeline.css'><link rel="stylesheet" href="./admin/style.css">
+        
+        </head>
+        <body>
+        <!-- partial:index.partial.html -->
+        <div id="wrapper">
+        
+          <!-- Navigation -->
+          <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+              <a class="navbar-brand" href="index.html">Admin</a>
+            </div>
+            <!-- /.navbar-header -->
+        
+             
+            
+            <!-- /.navbar-top-links -->
+        
+            <div class="navbar-default sidebar" role="navigation">
+              <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                  <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                      <span class="input-group-btn">
+                                        
+                                   
+                    </div>
+                    <!-- /input-group -->
+                  </li>
+                  <li>
+                    <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                  </li>
+                  
+                  
+                 
+          </nav>
+        
+          <div id="page-wrapper">
+            <div class="row">
+              <div class="col-lg-12">
+                <h1 class="page-header">Dashboard</h1>
+              </div>
+              <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                      </div>
+                      <div class="col-xs-9 text-right">
+                        <div class="huge">${ssa}</div>
+                        <div>users!</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-commenting-o fa-5x"></i>
+                      </div>
+                      <div class="col-xs-9 text-right">
+                        <div class="huge">${ds}</div>
+                        <div>global chat messages!</div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-exclamation-circle fa-5x"></i>
+                      </div>
+                      <div class="col-xs-9 text-right">
+                        <div class="huge">comming soon</div>
+                        <div>crash reports!</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-flag-o fa-5x"></i>
+                      </div>
+                      <div class="col-xs-9 text-right">
+                        <div class="huge">Soon</div>
+                        <div>reports!</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+                  ${ad}
+                   
+                  <!-- /.panel-footer -->
+                </div>
+                <!-- /.panel .chat-panel -->
+              </div>
+              <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /#page-wrapper -->
+        
+        </div>
+        <!-- /#wrapper -->
+        <!-- partial -->
+          <script src='https://code.jquery.com/jquery-3.1.0.js'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.1/raphael.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/3.3.7/js/sb-admin-2.js'></script>
+        <script src='https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js'></script>
+        </body>
+        </html>
+        `)
+    }else{
+        res.redirect('/home')
+        return true;
 
+    }
+})
 
 
 
